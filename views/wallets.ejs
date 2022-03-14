@@ -1,0 +1,29 @@
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="../css/wallets.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <title>WALLET</title>
+</head>
+<body>
+    <div class="wallets-holder">
+    <% for (var i=0; i < wallets.length; i++) {%>
+        <div class="wallet-tabs">
+            <div class="wallet" wallet="<%=wallets[i]%>">
+                <div class="wallet-top">
+                    <div class="wallet-address"><img src="../icons/copy.svg"></div>
+                </div>
+                    <div class="wallet-low"></div>
+            </div>
+            <div class="wallet-tokens">
+                <div class="search-holder">
+                    <input type="search" placeholder="Search tokens">
+                </div>
+            </div>
+            <div class="wallet-tokens-options"></div>
+        </div>
+    <%}%>
+</div>
+    <script src="../scripts/wallets.js"></script>
+</body>
