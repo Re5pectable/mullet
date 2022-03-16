@@ -1,1 +1,3 @@
-# zdarova pediki
+# MULLET
+
+Application for multi-wallet experience.

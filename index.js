@@ -1,54 +1,33 @@
 var mongoose = require('mongoose');
  
-var Author = require('./models/author');
-var Book = require('./models/book');
- 
-mongoose.connect('mongodb://localhost/mongoose_basics', function (err) {
-    if (err) throw err;
-     
-    console.log('Successfully connected');
-     
-    var jamieAuthor = new Author({
+var User = require('./models/User');
+var Wallet = require('./models/Wallet');
+var Network = require('./models/Network');
+
+async function main() {
+    await mongoose.connect('mongodb://localhost/mullet')
+    let a = await Network.findOne({title: "Avalanche"})
+    let b = await Network.findOne({title: "Binance Smart Chain"})
+
+    var wallet = new Wallet({
         _id: new mongoose.Types.ObjectId(),
-        name: {
-            firstName: 'Jamie',
-            lastName: 'Munro'
-        },
-        biography: 'Jamie is the author of ASP.NET MVC 5 with Bootstrap and Knockout.js.',
-        twitter: 'https://twitter.com/endyourif',
-        facebook: 'https://www.facebook.com/End-Your-If-194251957252562/'
-    });
- 
-    jamieAuthor.save(function(err) {
-        if (err) throw err;
-         
-        console.log('Author successfully saved.');
-         
-        var mvcBook = new Book({
-            _id: new mongoose.Types.ObjectId(),
-            title: 'ASP.NET MVC 5 with Bootstrap and Knockout.js',
-            author: jamieAuthor._id,
-            ratings:[{
-                summary: 'Great read'
-            }]
-        });
-         
-        mvcBook.save(function(err) {
-            if (err) throw err;
-         
-            console.log('Book successfully saved.');
-        });
-         
-        var knockoutBook = new Book({
-            _id: new mongoose.Types.ObjectId(),
-            title: 'Knockout.js: Building Dynamic Client-Side Web Applications',
-            author: jamieAuthor._id
-        });
-         
-        knockoutBook.save(function(err) {
-            if (err) throw err;
-         
-            console.log('Book successfully saved.');
-        });
-    });
-});
+        address: "address", 
+        secret: "secret",
+        networks: [{_id: a._id, contracts: ['123', '456']}, {_id: b._id, contracts: ['123', '456']}]
+    })
+    // await wallet.save()
+    // wallet.networks.forEach(function(network) {
+    //     console.log(network._id)
+    // })
+    Wallet.find({}, function(err, wallet) {
+        wallet.forEach(function (e) {
+            for (let i = 0; i < e.networks.length; i++) {
+                Network.findById(e.networks[i]._id, function (err, network) {
+                    console.log(network)
+                })
+            }
+        })
+    })
+    // Wallet.deleteMany({}, function(err, wallet) {})
+}
+main()
